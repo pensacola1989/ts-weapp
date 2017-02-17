@@ -1,0 +1,29 @@
+<!--index.wxml-->
+<view class="container">
+  <!-- <view  bindtap="bindViewTap" class="userinfo">
+    <image class="userinfo-avatar" src="{{testData.userInfo.avatarUrl}}" background-size="cover"></image>
+    <text class="userinfo-nickname">{{testData.userInfo.nickName}}</text>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{testData.motto}} {{testStr}}</text>
+  </view> -->
+  <view class="flex-wrp">
+  	<view bindtap="gotoTicket" id="scan" class="flex-item">
+  		<i class="fa fa-ticket"></i>
+  		<span>扫小票</span>
+  	</view>
+  	<view bindtap="gotoMalls" id="nearby" class="flex-item">
+  		<i class="fa fa-map-marker"></i>
+  		<span>附近商场</span>
+  	</view>
+  	<view id="user" class="flex-item">
+  		<i class="fa fa-user-circle-o"></i>
+  		<span>个人中心</span>
+  	</view>
+  </view>
+</view>
+<include src="../common/footer.wxml"/>
+<!-- <view class="footer">
+	<image src="../../assets/images/footer.png" mode="widthFix"/>
+</view>
+ -->

@@ -1,0 +1,3 @@
+<view class="footer">
+	<image src="../../assets/images/footer.png" mode="widthFix"/>
+</view>

@@ -1,0 +1,12 @@
+<view class="auth-wrapper">
+	<view class="section input-section {{isFocus == 0 ? 'active' : ''}}">
+	    <input type="text" bindfocus="inputFocus" bindblur="inputBlur" data-index="0" class="input-item" placeholder="用户名"/>
+	</view>
+	<view class="section input-section {{isFocus == 1 ? 'active' : ''}}">
+	    <input type="password" bindfocus="inputFocus" bindblur="inputBlur" data-index="1" class="input-item" placeholder="密码"/>
+	</view>
+	<view class="section btn-section">
+		<button class="kd-button" type="primary">登录</button>
+	</view>
+</view>
+<include src="../common/footer.wxml"/>

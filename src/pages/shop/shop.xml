@@ -1,0 +1,46 @@
+<!-- <view class="section">
+    <input type="text" bindfocus="inputFocus" class="search-input" placeholder="输入商户名或品牌名"/>
+</view> -->
+<view class="section picker-section">
+  <!--<view class="section__title">地区选择器</view>-->
+  <picker model="selector" bindchange="bindFloorChange" range-key="floor_name" value="{{selectIndex.floor}}" range="{{filter.floorArray}}">
+    <view class="picker">
+      {{selectIndex.floor == -1 ? '楼层' : filter.floorArray[selectIndex.floor].floor_name }}
+    </view>
+  </picker>
+  <picker bindchange="bindBisChange" range-key="title" value="{{selectIndex.bis}}" range="{{filter.bisArray}}">
+    <view class="picker">
+      {{selectIndex.bis == -1 ? '业态' : filter.bisArray[selectIndex.bis].title }}
+    </view>
+  </picker>
+  <picker bindchange="bindOrderChange" value="{{selectIndex.order}}" range="{{filter.orderArray}}">
+    <view class="picker">
+      {{selectIndex.order == -1 ? '智能排序' : filter.orderArray[selectIndex.order] }}
+    </view>
+  </picker>
+</view>
+<scroll-view class="my-scroll bis-list" scroll-y="true"  style="margin-top:0; height: 100vh;" bindscrolltolower="loadMore">
+    <view class="bis-list-item" wx:for="{{shopList}}"  wx:for-index="index" data-detail_url="{{item.shopdetail_url}}" bindtap="gotoDetail">
+        <!-- <view class="image left"> -->
+            <image mode="aspectFit" src="{{item.logo_img_url}}"/>
+        <!-- </view> -->
+        <view class="des">
+            <p class="title">{{item.shop_name}}</p>
+            <p class="category">{{item.type_name}}</p>
+            <p class="location">
+                <i class="fa fa-map-marker"></i>
+                <span class="location-info">{{item.floor_name}}</span>
+            </p>
+        </view>
+        <view class="action" wx:if="{{!item.isLike}}">
+            <i class="fa fa-heart-o" data-index="{{index}}" bindtap="like"></i>
+        </view>
+        <view class="action" wx:if="{{item.isLike}}">
+            <i class="fa fa-heart-o" style="color: #F44336;" data-index="{{index}}" bindtap="like"></i>
+        </view>
+    </view>
+    <view class="loadMore" wx:if="{{isLoading}}">
+      正在加载...
+    </view>
+</scroll-view>
+

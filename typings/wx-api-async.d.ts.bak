@@ -1,0 +1,444 @@
+type WXCommonCallbackAsync = (data: any) => void;
+type WXMergedAPIAsync = WXNetAPIAsync & WXMediaAPIAsync & WXStorageAPIAsync & WXLocationAPIAsync & WXDeviceAPIAsync & WXUIAPIAsync & WXOpenAPIAsync;
+
+interface WXCommonObjAsync {
+	// success?: WXCommonCallback;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXNetAPIRequestObjAsync extends WXCommonObjAsync {
+	url: string;
+	data?: Object | string;
+	header?: Object;
+	method?: string;
+}
+
+interface WXNetAPIDownloadFileObjAsync {
+	url: string;
+	header?: Object;
+	// success?: (res: { tempFilePath: string, [propName: string]: any }) => void;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXNetAPIUploadFileObjAsync extends WXCommonObjAsync {
+	url: string;
+	filePath: string;
+	name: string;
+	header?: Object;
+	formData?: Object;
+}
+
+interface WXNetAPIConnectSocketObjAsync extends WXCommonObjAsync {
+	url: string;
+	data?: Object;
+	header?: Object;
+	method?: string;
+}
+
+interface WXNetAPIAsync {
+	request(obj: WXNetAPIRequestObjAsync): Promise<any>;
+	downloadFile(obj: WXNetAPIDownloadFileObjAsync): Promise<any>;
+	uploadFile(obj: WXNetAPIUploadFileObjAsync):Promise<any>;
+	connectSocket(obj: WXNetAPIConnectSocketObjAsync): Promise<any>;
+	onSocketOpen(cb: WXCommonCallbackAsync);
+	onSocketError(cb: WXCommonCallbackAsync);
+	sendSocketMessage(obj: { data: string | ArrayBuffer } & WXCommonObjAsync): Promise<any>;
+	onSocketMessage(callback: (data: string | ArrayBuffer) => void);
+	closeSocket();
+	onSocketClose(cb: WXCommonCallbackAsync);
+}
+
+interface WXChooseImageObjAsync {
+	count?: number;
+	sizeType?: string[];
+	sourceType?: string[];
+	// success: (res: { tempFilePaths: string[], [propName: string]: any }) => void;
+	// fail: WXCommonCallback;
+	// complete: WXCommonCallback;
+}
+
+interface WXPreviewImageObjAsync extends WXCommonObjAsync {
+	current?: string;
+	urls: string[];
+}
+
+interface WXGetImageObjAsync {
+	src: string;
+	// success?: (res: { width: number, height: number, [propName: string]: any }) => void;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXStartRecordObjAsync {
+	// success?: (res: { tempFilePath: string, [propName: string]: any }) => void;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXGetBackgroundAudioPlayerStateObjAsync {
+	// success?: (res: { duration: number, currentPostion: number, status: number, downloadPercent: number, dataUrl: string, [propName: string]: any }) => void;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXSaveFileObjAsync {
+	tempFilePath: string,
+	// success?: (res: { savedFilePath: string, [propName: string]: any }) => void;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXGetSaveFileObjAsync {
+	// success?: (res: { errMsg: string, fileList: { filePath: string, createTime: number, size: number, [propName: string]: any }[] }) => void;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXGetSaveFileInfoObjAsync {
+	filePath: string;
+	// success?: (res: { errMsg: string, createTime: number, size: number, [propName: string]: any }) => void;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXRemoveSavedFileObjAsync {
+	filePath: string;
+	// success?: (res: { errMsg: string, fileList: { filePath: string, createTime: number, size: number, [propName: string]: any }[] }) => void;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXChooseVideoObjAsync extends WXCommonObjAsync {
+	sourceType?: string[];
+	maxDuration?: number;
+	camera?: string[];
+}
+
+interface WXVideoAsync {
+	tempFilePath: string;
+	duration: number;
+	size: number;
+	height: number;
+	width: number;
+}
+
+interface WXAudioContextAsync {
+	play();
+	pause();
+	seek(position: number);
+}
+
+interface WXVideoContextAsync {
+	play();
+	pause();
+	seek(position: number);
+	sendDanmu(danmu: { text: string, color: string })
+}
+
+interface WXMediaAPIAsync {
+	chooseImage(obj: WXChooseImageObjAsync): Promise<any>;
+	previewImage(obj: WXPreviewImageObjAsync): Promise<any>;
+	getImageInfo(obj: WXGetImageObjAsync): Promise<any>;
+
+	startRecord(obj: WXStartRecordObjAsync): Promise<any>;
+	stopRecord();
+
+	playVoice(obj: { filePath: string } & WXCommonObjAsync): Promise<any>;
+	pauseVoice();
+	stopVoice();
+
+	getBackgroundAudioPlayerState(obj: WXGetBackgroundAudioPlayerStateObjAsync): Promise<any>;
+	playBackgroundAudio(obj: { dataUrl: string, title?: string, coverImgUrl?: string } & WXCommonObjAsync): Promise<any>;
+	pauseBackgroundAudio(): Promise<any>;
+	seekBackgroundAudio(obj: { position: number } & WXCommonObjAsync): Promise<any>;
+	stopBackgroundAudio(): Promise<any>;
+	onBackgroundAudioPlay(cb: WXCommonCallbackAsync);
+	onBackgroundAudioPause(cb: WXCommonCallbackAsync);
+	onBackgroundAudioStop(cb: WXCommonCallbackAsync);
+
+	saveFile(obj: WXSaveFileObjAsync): Promise<any>;
+	getSavedFileList(obj: WXGetSaveFileObjAsync): Promise<any>;
+	getSavedFileInfo(obj: WXGetSaveFileInfoObjAsync): Promise<any>;
+	removeSavedFile(obj: WXRemoveSavedFileObjAsync): Promise<any>;
+	openDocument(obj: { filePath: string } & WXCommonObjAsync): Promise<any>;
+
+	chooseVideo(obj: WXChooseVideoObjAsync): WXVideoAsync;
+	createAudioContext(audioId: string): WXAudioContextAsync;
+	createVideoContext(vedioId: string): WXVideoContextAsync;
+}
+
+interface WXGetStorageObjAsync {
+	key: string;
+	// success: (res: { data: any, [propName: string]: any }) => void;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXGetStorageInfoObjAsync {
+	// success: (res: { keys: string[], currentSize: number, limitSize: number, [propName: string]: any }) => void;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXStorageAPIAsync {
+	setStorage(obj: { key: string, data: Object | string } & WXCommonObjAsync): Promise<any>;
+	setStorageSync(key: string, data: Object | string): Promise<any>;
+	getStorage(obj: WXGetStorageObjAsync): Promise<any>;
+	getStorageSync(key: string): any;
+	getStorageInfo(obj: WXGetStorageInfoObjAsync): Promise<any>;
+	getStorageInfoSync(): { keys: string[], currentSize: number, limitSize: number };
+	removeStorage(obj: WXGetStorageObjAsync): Promise<any>;
+	removeStorageSync(key: string);
+	clearStorage(): Promise<any>;
+	clearStorageSync();
+}
+
+interface WXGetLocationObjAsync {
+	type: string;
+	// success: (res: { latitude: number, longitude: number, speed: number, accuracy: number, [propName: string]: any }) => void;
+	// cancel?: WXCommonCallback;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXChooseLocationObjAsync {
+	// success: (res: { latitude: number, longitude: number, name: string, address: string, [propName: string]: any }) => void;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXOpenLocationObjAsync extends WXCommonObjAsync {
+	latitude: number;
+	longitude: number;
+	scale?: number;
+	name?: string;
+	address?: string;
+}
+
+interface WXLocationAPIAsync {
+	getLocation(obj: WXGetLocationObjAsync): Promise<any>;
+	chooseLocation(obj: WXGetLocationObjAsync): Promise<any>;
+	openLocation(obj: WXOpenLocationObjAsync): Promise<any>;
+}
+
+interface WXSystemInfoAsync {
+	model: string;
+	pixelRatio: number;
+	windowWidth: number;
+	windowHeight: number;
+	language: string;
+	version: string;
+	[propName: string]: any
+}
+
+interface WXDeviceAPIAsync {
+	getNetworkType(): Promise<{ networkType: string, [propName: string]: any }>;
+	getSystemInfo(): Promise<WXSystemInfoAsync>;
+	getSystemInfoSync(): WXSystemInfoAsync;
+	onAccelerometerChange(cb: (res: { x: number, y: number, z: number, [propName: string]: any }) => void);
+	onCompassChange(cb: (res: { direction: number, [propName: string]: any }) => void);
+	makePhoneCall(obj: { phoneNumber: string } & WXCommonObjAsync): Promise<any>;
+}
+
+interface WXToastAsync extends WXCommonObjAsync {
+	title: string;
+	icon?: string;
+	duration?: number;
+}
+
+interface WXModalAsync {
+	title: string;
+	content: string;
+	showCancel?: boolean;
+	cancelText?: string;
+	cancelColor?: string;
+	confirmText?: string;
+	confirmColor?: string;
+	success?: (res: { confirm: number, [propName: string]: any }) => void;
+	fail?: WXCommonCallbackAsync;
+	complete?: WXCommonCallbackAsync;
+}
+
+interface WXActionSheetAsync {
+	itemList: string[];
+	itemColor?: string;
+	// success?: (res: { tabIndex: number, cancel: boolean, [propName: string]: any }) => void;
+	// fail?: WXCommonCallback;
+	// complete?: WXCommonCallback;
+}
+
+interface WXCreateAnimationObjAsync {
+	duration?: number;
+	timingFunction?: string;
+	delay?: number;
+	transformOrigin?: string;
+}
+
+interface WXAnimationAsync {
+	opacity(value: number): WXAnimationAsync;
+	backgroundColor(color: string): WXAnimationAsync;
+	width(length: number): WXAnimationAsync;
+	height(length: number): WXAnimationAsync;
+	top(length: number): WXAnimationAsync;
+	left(length: number): WXAnimationAsync;
+	bottom(length: number): WXAnimationAsync;
+	right(length: number): WXAnimationAsync;
+
+	rotate(deg: number): WXAnimationAsync;
+	rotateX(deg: number): WXAnimationAsync;
+	rotateY(deg: number): WXAnimationAsync;
+	rotateZ(deg: number): WXAnimationAsync;
+	rotate3d(deg: number, x: number, y: number, z: number): WXAnimationAsync;
+
+	scale(sx: number, sy?: number): WXAnimationAsync;
+	scaleX(sx: number): WXAnimationAsync;
+	scaleY(sy: number): WXAnimationAsync;
+	scaleZ(sz: number): WXAnimationAsync;
+	scale3d(sx: number, sy: number, sz: number): WXAnimationAsync;
+
+	translate(tx: number, ty?: number): WXAnimationAsync;
+	translateX(tx: number): WXAnimationAsync;
+	translateY(ty: number): WXAnimationAsync;
+	translateZ(tz: number): WXAnimationAsync;
+	translate3d(tx: number, ty: number, tz: number): WXAnimationAsync;
+	skew(ax: number, ay?: number): WXAnimationAsync;
+	skewX(ax: number): WXAnimationAsync;
+	skewY(ay: number): WXAnimationAsync;
+
+	matrix(a: number, b: number, c: number, d: number, tx: number, ty: number): WXAnimationAsync;
+	matrix3d(a1: number, b1: number, c1: number, d1: number, a2: number, b2: number, c2: number, d2: number, a3: number, b3: number, c3: number, d3: number, a4: number, b4: number, c4: number, d4: number): WXAnimationAsync;
+
+	step();
+}
+
+interface WXContextAsync {
+	getActions(): any;
+	clearActions();
+
+	scale(scaleWidth: number, scaleHeight: number);
+	rotate(degree: number);
+	translate(x: number, y: number);
+	save();
+	restore();
+
+	clearRect(x: number, y: number, width: number, height: number);
+	fillText(x: number, y: number, text: string);
+	drawImage(imageResource: string, x: number, y: number, width: number, height: number);
+	fill();
+	stroke();
+
+	beginPath();
+	closePath();
+	moveTo(x: number, y: number);
+	lineTo(x: number, y: number);
+	rect(x: number, y: number, width: number, height: number);
+	arc(x: number, y: number, radius: number, startAngle: number, sweepAngle: number);
+	quadraticCurveTo(cpx: number, cpy: number, x: number, y: number);
+	bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number);
+
+	setFillStyle(color: string);
+	setStrokeStyle(color: string);
+	setGlobalAlpha(alpha: number);
+	setShadow(offsetX: number, offsetY: number, blur: number, color: string);
+	setFontSize(fontSize: number);
+	setLineWidth(lineWidth: number);
+	setLineCap(lineCap: string);
+	setLineJoin(lineJoin: string);
+	setMiterLimit(miterLimit: number);
+}
+
+interface WXUIAPIAsync {
+	showToast(obj: WXToastAsync);
+	hideToast();
+	showModal(obj: WXModalAsync);
+	showActionSheet(obj: WXActionSheetAsync);
+
+	setNavigationBarTitle(obj: { title: string } & WXCommonObjAsync);
+	showNavigationBarLoading();
+	hideNavigationBarLoading();
+
+	navigateTo(obj: { url: string } & WXCommonObjAsync);
+	redirectTo(obj: { url: string } & WXCommonObjAsync);
+	navigateBack(obj: { delta: number });
+
+	createAnimation(obj: WXCreateAnimationObjAsync): WXAnimationAsync;
+
+	createContext(): WXContextAsync;
+	drawCanvas(obj: { canvasId: string, actions: any[], reserve?: boolean });
+	canvasToTempFilePath(obj: { canvasId: string });
+
+	hideKeyboard();
+	stopPullDownRefresh();
+}
+
+interface WXPaymentAsync extends WXCommonObjAsync {
+	timeStamp: number;
+	nonceStr: string;
+	package: string;
+	signType: string;
+	paySign: string;
+}
+
+interface WXOpenAPIAsync {
+	login(): Promise<{ errMsg: string, code: string, [propName: string]: any }>;
+	checkSession(obj: WXCommonObjAsync): Promise<any>;
+
+	getUserInfo(): Promise<{ userInfo: Object, rawData: string, signature: string, encryptedData: string, iv: string, [propName: string]: any }>;
+
+	requestPayment(obj: WXPaymentAsync): Promise<any>;
+}
+
+interface WXPageObjAsync {
+	data?: Object;
+	onLoad?: Function;
+	onReady?: Function;
+	onShow?: Function;
+	onHide?: Function;
+	onUnload?: Function;
+	onPullDownRefresh?: Function;
+	onReachBottom?: Function;
+	[propName: string]: any;
+}
+
+interface WXAppObjAsync {
+	onLaunch?: Function;
+	onShow?: Function;
+	onHide?: Function;
+	[propName: string]: any;
+}
+
+interface IPageAsync {
+	(obj: WXPageObj): void;
+	setData(obj: Object);
+	forceUpdate();
+	update();
+}
+
+interface IAppAsync {
+	(obj: WXAppObjAsync): void;
+	globalData: any;
+}
+
+// 微信的文档太弱了，这块儿没有说明
+interface WXGetAppObjAsync {
+	globalData: any;
+	[propName: string]: any;
+	getUserInfo(cb: (userInfo: Object) => void);
+	getCurrentPage(): IPageAsync;
+}
+
+declare let wxAsync: WXMergedAPIAsync;
+declare let PageAsync: IPageAsync;
+declare let AppAsync: IAppAsync;
+declare function getAppAsync(): WXGetAppObjAsync;
+declare function getCurrentPagesAsync(): any[];
+
+declare module "WXAPIAsync" {
+	export let wxAsync: WXMergedAPIAsync;
+	export let PageAsync: IPageAsync;
+	export function AppAsync(obj: WXAppObjAsync);
+	export function getAppAsync(): WXGetAppObjAsync;
+	export function getCurrentPagesAsync(): any[];
+}

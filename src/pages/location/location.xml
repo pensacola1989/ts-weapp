@@ -1,0 +1,10 @@
+<view class="section location-choose">
+    <view class="area-item" wx:for="{{groupedArea}}">
+        <p>{{item.k}}</p>
+        <view class="city">
+            <span class="city-item" wx:for="{{item.v}}" data-city="{{item}}" bindtap="pickCity">
+            {{item.title}}
+            </span>
+        </view>
+    </view>
+</view>

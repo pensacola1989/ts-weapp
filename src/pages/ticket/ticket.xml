@@ -1,0 +1,22 @@
+<view class="photo-container">
+	<button wx:if="{{!uploadedUrl}}" class="camera-btn" bindtap="takePhoto">
+		<i class="fa fa-camera"></i>
+		点击拍摄小票	
+	</button>
+	<image style="position: absolute; width: 100%;" wx:if="{{uploadedUrl}}" src="{{uploadedUrl}}"/>
+	<button style="background: url({{uploadedUrl}})" wx:if="{{uploadedUrl}}" class="camera-btn" bindtap="takePhoto">
+		<i class="fa fa-camera"></i>
+		重拍
+	</button>
+</view>
+<view id="photo-action" class="flex-wrp" style="margin-top: 34px;" wx:if="{{uploadedUrl}}">
+  	<view id="preview-btn" class="flex-item" bindtap="preivewPhoto">
+  		<i class="fa fa-eye"></i>
+  		<span>预览</span>
+  	</view>
+  	<view id="upload-btn" class="flex-item">
+  		<i class="fa fa-upload"></i>
+  		<span>上传</span>
+  	</view>
+ </view>
+<include src="../common/footer.wxml"/>

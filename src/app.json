@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/ticket/ticket",
+    "pages/malls/malls",
+    "pages/shop/shop",
+    "pages/location/location",
+    "pages/auth/auth"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f7f7f7",
+    "navigationBarTitleText": "凯德Mall",
+    "navigationBarTextStyle": "black"
+  }
+}

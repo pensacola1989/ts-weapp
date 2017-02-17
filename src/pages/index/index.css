@@ -1,0 +1,47 @@
+/**index.wxss**/
+
+page {
+	height: 100%;
+	background-color: #f7f7f7;
+}
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width: 64rpx;
+  height: 64rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.usermotto {
+  margin-top: 200px;
+}
+
+
+.flex-item#scan i {
+  color: rgba(87, 107, 149, 1);
+  background-color: rgba(87, 107, 149, .2);
+}
+.flex-item#nearby i {
+  color: rgba(9, 187, 7, 1);
+  background-color: rgba(9, 187, 7, .2);
+}
+.flex-item#user i {
+  color: rgba(230, 67, 64, 1); 
+  background-color: rgba(230, 67, 64, .2); 
+}
+
+.circle image {
+  height:60%;
+  width:60%;
+  display:block;
+  margin:auto;
+}

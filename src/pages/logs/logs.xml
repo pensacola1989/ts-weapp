@@ -1,0 +1,10 @@
+<!--logs.wxml-->
+<view class="container log-list">
+  <block wx:for="{{logs}}" wx:for-item="log" wx:key="*this">
+    <text class="log-item">{{index + 1}}. {{log.text}}</text>
+  </block>
+  <text wx:if="{{isGreater}}">greater that 2</text>
+ 	<button bindtap="add">add</button>
+	<button bindtap="sub">remove</button>
+	<button bindtap="changeArr">change</button>
+</view>
