@@ -68,7 +68,7 @@ export class WxHttpClient {
         opts.method = method;
         opts.data = body || paramOptions.data;
         opts.header = paramOptions.header || {};
-        
+
         return this.request(url, opts);
     }
 
@@ -93,7 +93,7 @@ export class WxHttpClient {
         itcpt.forEach(interceptor => {
             tempError = interceptor.responseError(err);
         });
-        
+
         return Promise.reject(err);
     }
 
@@ -120,20 +120,22 @@ export class WxHttpClient {
         opts.url = url;
         opts.method = options.method.toUpperCase();
 
-        let tempRequestResult;
+        let tempRequestResult, tempHeaders = JSON.parse(JSON.stringify(opts.header));
         if (WxHttpClient.Interceptors.length) {
             let itcpt = WxHttpClient.Interceptors;
             // let itcptRet: any = [];
             itcpt.forEach(interceptor => {
                 tempRequestResult = interceptor.request(opts);
             })
+            Object.assign(tempRequestResult.header, tempHeaders);
         }
+        
         let wxHttpPromise = apiWrapper.WxApi.request(tempRequestResult || opts);
 
         return this._excutePromise(wxHttpPromise);
     }
     public get(url: string, options?: RequestOptionsArgs): Promise<WxResponse> {
-        return this._buildRequest(url, RequestMethod[RequestMethod.Get], options);
+        return this._buildRequest(url, RequestMethod[RequestMethod.Get], null, options);
     }
     public post(url: string, body: Body, options?: RequestOptionsArgs): Promise<WxResponse> {
         return this._buildRequest(url, RequestMethod[RequestMethod.Post], body, options);

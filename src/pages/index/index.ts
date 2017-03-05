@@ -2,8 +2,8 @@ import { WxApiPromise } from '../../core/wx-api-wrapper';
 import { IPage, PageBase } from '../../core/page-base';
 import { WxPage, viewModel, Watcher } from '../../core/decorators/index';
 import { Events } from '../../core/util/events';
-
-let apis = new WxApiPromise();
+import { WxHttpClient , RequestOptionsArgs} from '../../core/util/wx-http-client';
+let apiEntry = new WxApiPromise().WxApi;
 let app = getApp();
 
 
@@ -16,7 +16,10 @@ interface IndexPageData {
 @WxPage
 class IndexPage extends PageBase {
 
-    constructor(private _events = Events.getInstance()) {
+    constructor(
+        private _events = Events.getInstance(),
+        private _httpClient = new WxHttpClient()
+    ) {
         super();
     }
 
@@ -37,47 +40,53 @@ class IndexPage extends PageBase {
     // }
 
     public gotoTicket(): void {
-        apis.WxApi.navigateTo({
+        apiEntry.navigateTo({
             url: '../ticket/ticket'
         });
     }
 
-    public gotoMalls() :void {
-        apis.WxApi.navigateTo({
+    public gotoMalls(): void {
+        apiEntry.navigateTo({
             url: '../malls/malls'
-        });   
+        });
     }
 
     public bindViewTap(): void {
         this.testStr = 'fuck2';
 
         this.$set(this.testData, 'motto', 'fuck22222222');
-        // this.testData.motto = 'sdfsdf';
         wx.navigateTo({
             url: '../logs/logs'
         });
     }
-    @Watcher('testStr')
-    public testWatcher(oldVal: any, newVal: any) {
-        console.log('watcher callback runs');
-        console.log(`%c old value.....${oldVal}.......`, 'color: #aaa;');
-        console.log(`%c new value.....${newVal}.......`, 'color: green;');
-    }
+    // @Watcher('testStr')
+    // public testWatcher(oldVal: any, newVal: any) {
+    //     console.log('watcher callback runs');
+    //     console.log(`%c old value.....${oldVal}.......`, 'color: #aaa;');
+    //     console.log(`%c new value.....${newVal}.......`, 'color: green;');
+    // }
 
     public async onLoad() {
-        this._events.subscribe('fuck', (a, b) => {
-            console.log(a);
-
-            console.log(b);
-        });
+        // this._events.subscribe('fuck', (a, b) => {
+        //     console.log(a);
+        //     console.log(b);
+        // });
         console.log('onLoad');
-        let info = await app.getUserInfo();
-        // this.testData.motto = 'Hello World and I get user Infomation';
-        // this.testData.userInfo = info;
-        this.testData = {
-            motto: 'Hello World and I get user Infomation',
-            userInfo: info
-        };
-        // this.testWatcher('fuck');
+        // let ret = await apiEntry.login();
+        // let info = await apiEntry.getUserInfo();
+        
+        // let auth = await this._httpClient.post(`http://localhost:3000/session/${ret.code}`, info);
+        // let testHeader = await this._httpClient.get('http://localhost:3000/session/test', <RequestOptionsArgs>{
+        //     header: {
+        //         fuck: 'you'
+        //     }
+        // });
+        let ret = await this._httpClient.get('http://localhost:3000/session/test');
+        console.log(ret);
+        // this.testData = {
+        //     motto: 'Hello World and I get user Infomation',
+        //     userInfo: info
+        // };
+
     }
 }

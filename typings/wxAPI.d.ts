@@ -8,7 +8,7 @@ interface WXCommonObj {
 }
 
 interface WXNetAPIRequestObj {
-	url: string;
+	url?: string;
 	data?: Object | string;
 	header?: Object;
 	method?: string;
@@ -200,9 +200,11 @@ interface WXGetStorageInfoObj {
 }
 
 interface WXStorageAPI {
-	setStorage(obj: { key: string, data: Object | string } & WXCommonObj);
+	// setStorage(obj: { key: string, data: Object | string } & WXCommonObj);
+	setStorage(obj: { key: string, data: Object | string }): Promise<any>;
 	setStorageSync(key: string, data: Object | string);
-	getStorage(obj: WXGetStorageObj);
+	// getStorage(obj: WXGetStorageObj);
+	getStorage({key: string}): Promise<{ data: any, errMsg: string }>;
 	getStorageSync(key: string): any;
 	getStorageInfo(obj: WXGetStorageInfoObj);
 	getStorageInfoSync(): { keys: string[], currentSize: number, limitSize: number };
@@ -400,7 +402,8 @@ interface WXPayment extends WXCommonObj {
 
 interface WXOpenAPI {
 	login(): Promise<{ errMsg: string, code: string, [propName: string]: any }>;
-	checkSession(obj: WXCommonObj);
+	// checkSession(obj: WXCommonObj);
+	checkSession(): Promise<{ errMsg: string }>;
 	getUserInfo(): Promise<{ userInfo: Object, rawData: string, signature: string, encryptedData: string, iv: string, [propName: string]: any }>;
 	// getUserInfo(obj: { success?: (res: { userInfo: Object, rawData: string, signature: string, encryptedData: string, iv: string, [propName: string]: any }) => void, fail?: WXCommonCallback, complete?: WXCommonCallback  });
 

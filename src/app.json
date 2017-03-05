@@ -1,12 +1,7 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/logs/logs",
-    "pages/ticket/ticket",
-    "pages/malls/malls",
-    "pages/shop/shop",
-    "pages/location/location",
-    "pages/auth/auth"
+    "pages/logs/logs"
   ],
   "window": {
     "backgroundTextStyle": "light",
